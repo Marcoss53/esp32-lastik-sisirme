@@ -1,0 +1,27 @@
+Bölüm,Satıcı,Ürün,Adet,Birim TL (KDV dahil),Toplam TL,Not,Link
+ŞİMDİ,Motorobit,2W-025-08 DC 12V NC Elektromanyetik Valf (G1/4),1,1060.50,1060.50,Şişirme valfi,https://www.motorobit.com/2w-025-08-dc-12v-nc-elektromanyetik-valf-solenoid-valf
+ŞİMDİ,Motorobit,G1/4 Paslanmaz Basınç Sensörü 200 PSI (0.5-4.5V; 5V),1,1393.80,1393.80,GPIO34 (10k/20k bölücü),https://www.motorobit.com/g14-paslanmaz-celik-suyaggaz-basinc-sensoru-200-psi
+ŞİMDİ,Motorobit,TIP102 100V 8A TO-220 Transistör,1,24.00,24.00,Valf sürücü,https://www.motorobit.com/tip102-100v-8a-to-220-transistor
+ŞİMDİ,Motorobit,1K 1/4W Direnç (10 adet),1,3.04,3.04,GPIO25 -> B,https://www.motorobit.com/1k-14w-direnc-10-adet
+ŞİMDİ,Motorobit,10K 1/4W Direnç (10 adet),1,3.03,3.03,B->GND + sensör bölücü (10k + 2x10k=20k),https://www.motorobit.com/10k-14w-direnc-10-adet
+ŞİMDİ,Motorobit,1N4007 1000V 1A Diyot,1,0.61,0.61,Valfe ters paralel,https://www.motorobit.com/1n4007-1000v-1a-diyot
+ŞİMDİ,Motorobit,DC 5-30V to 5V 3A Voltaj Düşürücü,1,60.60,60.60,ESP32 VIN + sensör,https://www.motorobit.com/dc-5-30v-to-5v-3a-voltaj-dusurucu-modulu
+ŞİMDİ,Motorobit,Gepro UM-0285 12V 2A Adaptör,1,166.65,166.65,,https://www.motorobit.com/gepro-um-0285-12v-2a-adaptor
+ŞİMDİ,Motorobit,5.5x2.1 Dişi DC Jak,1,12.12,12.12,Panel,https://www.motorobit.com/55x21mm-disi-dc-barrel-jack
+ŞİMDİ,Motorobit,AB6-M 16 mm Yaylı Buton,3,30.30,90.90,"+ / − / BAŞLAT",https://www.motorobit.com/ab6-m-16mm-30v-yesil-yaylii-buton
+ŞİMDİ,Motorobit,ARA TOPLAM,,,2815.25,,
+ELDE,—,ESP32 DevKit,1,0,0,Ayrıca gerekli / also required,
+ELDE,—,"Waveshare 2"" ST7789V 240x320 LCD",1,0,0,Ayrıca gerekli / also required,
+ELDE,—,Pertinaks + kablo + M3 vida + PLA (~400 g),1,0,0,Ayrıca gerekli / also required,
+HAVA HATTI,Yerel hırdavat/pnömatikçi,1/4 uzatma nipel ~75 mm,1,,,Valf -> sensör T'si,
+HAVA HATTI,Yerel hırdavat/pnömatikçi,1/4 T (2. T - tahliye),1,,,,
+HAVA HATTI,Yerel hırdavat/pnömatikçi,1/4 kör tapa,1,,,Tahliye kolu şimdilik kapalı,
+HAVA HATTI,Yerel hırdavat/pnömatikçi,1/4 kısa nipel 13 mm,2,,,,
+HAVA HATTI,Yerel hırdavat/pnömatikçi,3/4->1/4 redüksiyon,2,,,Giriş + çıkış,
+GELECEK,Motorobit,2W-160-15 DC 12V NC Elektromanyetik Valf (G1/2),1,1711.95,1711.95,Yeni şişirme valfi,https://www.motorobit.com/2w-160-15-dc-12v-nc-elektromanyetik-valf-solenoid-valf
+GELECEK,Motorobit,TIP102 (2.) + 1N4007 + 1K + 10K,1,27.65,27.65,Küçük valf tahliye -> GPIO26,https://www.motorobit.com/tip102-100v-8a-to-220-transistor
+GELECEK,Yerel hırdavat/pnömatikçi,1/2->1/4 burç,1,,,,
+GELECEK,Yerel hırdavat/pnömatikçi,3/4->1/2 redüksiyon,1,,,Giriş redüksiyonu değişir,
+GELECEK,Yerel hırdavat/pnömatikçi,1/4 uzatma nipel 40 mm,1,,,,
+GELECEK,Yerel hırdavat/pnömatikçi,1/4 sinter susturucu,1,32.28,32.28,,https://mir-teknik.com/pnomatik/fittings/prd-14-sinter-susturucu
+GELECEK,,ARA TOPLAM (bilinen fiyatlar),,,1771.88,,
