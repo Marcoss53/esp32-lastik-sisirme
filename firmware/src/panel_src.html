@@ -1,0 +1,79 @@
+<!doctype html><html lang=tr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>Lastik Şişirme</title><style>
+*{box-sizing:border-box}body{margin:0;background:#080a0e;color:#e6e9f0;font-family:system-ui,Segoe UI,Roboto,sans-serif}
+header{padding:14px 16px;border-bottom:1px solid #00506f;display:flex;justify-content:space-between;align-items:center}
+h1{margin:0;font-size:20px;letter-spacing:2px;color:#00c8ff}.tabs{display:flex;gap:6px;padding:10px 12px}
+.tabs button{flex:1;background:#121822;color:#8ca0b4;border:1px solid #1f2a3a;border-radius:10px;padding:12px;font-size:15px}
+.tabs button.on{color:#00c8ff;border-color:#00c8ff}main{padding:0 12px 20px;max-width:560px;margin:auto}
+.card{background:#121822;border-radius:14px;padding:14px;margin:10px 0}.big{border:1px solid #00c8ff;text-align:center}
+.lbl{color:#788ca0;font-size:13px;letter-spacing:1px}.val{font-size:64px;font-weight:700;line-height:1.1}.unit{color:#00c8ff;font-size:18px}
+.row{display:flex;gap:10px}.row .card{flex:1;text-align:center}.y{color:#ffc800;font-size:28px;font-weight:700}.c{color:#00c8ff;font-size:28px;font-weight:700}
+.st{border-radius:12px;padding:14px;text-align:center;font-size:22px;font-weight:700;background:#1eaa50}
+.bars{display:flex;align-items:flex-end;gap:6px;height:90px}.bars div{flex:1;background:#00c8ff;border-radius:4px 4px 0 0;min-height:2px;position:relative}
+.bars span{position:absolute;top:-17px;left:0;right:0;text-align:center;font-size:11px;color:#9ab}.days{display:flex;gap:6px;font-size:11px;color:#788ca0}.days div{flex:1;text-align:center}
+button.b{width:100%;padding:16px;font-size:17px;font-weight:700;border:0;border-radius:12px;margin:6px 0;color:#fff;background:#0096c8}
+button.g{background:#1eaa50}button.r{background:#b43232}input,select{width:100%;padding:14px;font-size:18px;border-radius:10px;border:1px solid #2a3648;background:#0b0f16;color:#fff;margin:4px 0}
+.msg{padding:10px;border-radius:10px;margin:8px 0;display:none}.ok{background:#123d22;color:#7fe0a0;display:block}.er{background:#3d1212;color:#ff9090;display:block}
+.tus{display:flex;gap:10px;margin:10px 0}.tus button{border:0;border-radius:14px;color:#fff;font-weight:800;padding:22px 0;touch-action:manipulation;user-select:none;-webkit-user-select:none}.tus .pm{flex:1;font-size:40px;background:#1f2a3a}.tus .bs{flex:2;font-size:22px;background:#1eaa50}.tus button:active{filter:brightness(1.4)}
+.kv{display:flex;justify-content:space-between;padding:4px 0;font-size:15px}.kv b{color:#00c8ff}.hid{display:none}small{color:#788ca0}
+</style></head><body>
+<header><h1>LASTİK ŞİŞİRME</h1><small id=ip>şişirme istasyonu</small></header>
+<div class=tabs><button id=t0 class=on onclick="tab(0)">Panel</button><button id=t1 onclick="tab(1)">Kalibrasyon</button><button id=t2 onclick="tab(2)">Ayar</button></div>
+<main>
+<section id=s0>
+ <div class="card big"><div class=lbl>BASINÇ</div><div class=val id=p>--</div><div class=unit id=u>bar</div></div>
+ <div class=row><div class=card><div class=lbl>HEDEF</div><div class=y id=h>--</div></div><div class=card><div class=lbl>FARK</div><div class=c id=f>--</div></div></div>
+ <div class=st id=d>--</div>
+ <div class=tus><button class=pm id=bz>−</button><button class=bs id=bb onclick="tus('bas')">BAŞLAT</button><button class=pm id=ba>+</button></div>
+ <button class=b style="background:#1f2a3a;padding:10px;font-size:14px" onclick="tus('birim')">Birim değiştir (bar / psi / kPa)</button>
+ <div class=row><div class=card><div class=lbl>BUGÜN</div><div class=c id=bg>0</div><small id=hg></small></div><div class=card><div class=lbl>TOPLAM</div><div class=c id=tp>0</div><small id=ht></small></div></div>
+ <div class=card><div class=lbl>SON 7 GÜN</div><br><div class=bars id=bars></div><div class=days id=days></div></div>
+</section>
+<section id=s1 class=hid>
+ <div class=card><div class=kv>Ham sensör<b id=mv>-- mV</b></div><div class=kv>Filtreli basınç<b id=fb>-- bar</b></div><div class=kv>kalK (çarpan)<b id=kk>--</b></div><div class=kv>Ofset<b id=of>--</b></div></div>
+ <div id=m1 class=msg></div>
+ <div class=card><div class=lbl>1) SIFIR</div><small>Hortum lastiğe takılı değilken, basınç yokken bas.</small><button class="b g" onclick="api('/kal?sifir=1')">Sıfırla (hortum boşken)</button></div>
+ <div class=card><div class=lbl>2) MANOMETRE İLE</div><small>Lastiği şişir, manometrenin okuduğu değeri gir.</small>
+  <div class=row style="gap:8px"><input id=mg type=number step=0.01 inputmode=decimal placeholder="örn. 2.20" style="flex:2"><select id=mb style="flex:1"><option>bar</option><option>psi</option></select></div>
+  <button class=b onclick="kal()">Kalibre et</button></div>
+ <div class=card><div class=lbl>3) ÇARPAN (kalK) ELLE</div><small>0.8 – 1.2</small><input id=kt type=number step=0.0001 inputmode=decimal placeholder="örn. 1.0300"><button class=b onclick="let v=parseFloat(kt.value);if(!(v>=0.8&&v<=1.2))return msg('0.8–1.2 arası gir',0);api('/kal?kat='+v.toFixed(4))">Çarpanı ayarla</button></div>
+ <div class=card><button class="b r" onclick="if(confirm('Kalibrasyon silinsin mi?'))api('/kal?sifirla=1')">Fabrika ayarına dön</button></div>
+</section>
+<section id=s2 class=hid>
+ <div id=m2 class=msg></div>
+ 
+ <div class=card><div class=lbl>HEDEF BASINÇ</div><div class=row style="gap:8px"><input id=hv type=number step=0.1 inputmode=decimal style="flex:2"><select id=hb style="flex:1"><option>bar</option><option>psi</option><option>kPa</option></select></div>
+  <button class=b onclick="hedef()">Hedefi ve birimi kaydet</button></div>
+</section></main>
+<script>
+const $=i=>document.getElementById(i);let cur=0,J={};
+function tab(n){cur=n;for(let i=0;i<3;i++){$('s'+i).classList.toggle('hid',i!=n);$('t'+i).classList.toggle('on',i==n)}}
+function K(){return encodeURIComponent(localStorage.getItem('otaK')||'')}
+function msg(t,ok){for(const id of['m1','m2']){const m=$(id);m.textContent=t;m.className='msg '+(ok?'ok':'er')}}
+async function api(u){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'k='+K());const j=await r.json();
+ msg(j.ok?'Tamam ✓ kalK='+(j.kalK??'-')+' ofset='+(j.ofset??'-'):'Hata: '+(j.hata||r.status),j.ok);tazele()}catch(e){msg('Bağlantı hatası',0)}}
+function kal(){let v=parseFloat($('mg').value);if(!(v>0))return msg('Değer gir',0);if($('mb').value=='psi')v/=14.5038;api('/kal?gercek='+v.toFixed(3))}
+function hedef(){let v=parseFloat($('hv').value),b=$('hb').value;if(!(v>0))return msg('Değer gir',0);if(b=='psi')v/=14.5038;if(b=='kPa')v/=100;api('/ayar?hedef='+v.toFixed(4)+'&birim='+b.toLowerCase())}
+const cv=(b,u)=>u=='psi'?b*14.5038:u=='kPa'?b*100:b,fm=(v,u)=>u=='kPa'?v.toFixed(0):u=='psi'?v.toFixed(1):v.toFixed(2);
+const DR={HAZIR:'#1eaa50',SISIRILIYOR:'#0096c8',TAMAM:'#1eaa50',BITTI:'#1eaa50',HATA:'#dc2828',BOSALTILIYOR:'#f08200'};
+const DT={BITTI:'TAMAM',SISIRILIYOR:'ŞİŞİRİLİYOR',BOSALTILIYOR:'BOŞALTILIYOR'};
+const sure=s=>s<60?s+' sn':s<3600?Math.round(s/60)+' dk':(s/3600).toFixed(1)+' sa';
+function show(j){J=j;const u=j.birim,p=cv(j.basinc_bar,u),h=cv(j.hedef_bar,u),f=p-h;
+ $('p').textContent=j.sensor?fm(p,u):'---';$('u').textContent=u;$('h').textContent=fm(h,u);
+ $('f').textContent=j.sensor?(f>=0?'+':'')+fm(f,u):'---';$('f').style.color=Math.abs(j.basinc_bar-j.hedef_bar)<=.05?'#50dc78':(j.basinc_bar-j.hedef_bar)>.15?'#ff5050':'#00c8ff';
+ const cal=['SISIRILIYOR','BOSALTILIYOR'].includes(j.durum),bb=$('bb');bb.textContent=cal?'DURDUR':'BAŞLAT';bb.style.background=cal?'#b43232':'#1eaa50';
+ const d=$('d');d.textContent=j.durum=='HATA'?j.hata:(DT[j.durum]||j.durum)+(j.test?' (TEST, puls '+j.puls+')':'');d.style.background=DR[j.durum]||'#333';
+ $('bg').textContent=j.bugun;$('tp').textContent=j.toplam;$('hg').textContent='hava '+sure(j.hava_gun_s);$('ht').textContent='hava '+sure(j.hava_top_s);
+ const mx=Math.max(1,...j.son7),G=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'],t=new Date().getDay();
+ $('bars').innerHTML=j.son7.slice().reverse().map(v=>`<div style="height:${v/mx*100}%"><span>${v}</span></div>`).join('');
+ $('days').innerHTML=[6,5,4,3,2,1,0].map(i=>`<div>${i?G[(t-i+7)%7]:'Bugün'}</div>`).join('');
+ $('mv').textContent=j.ham_mv.toFixed(0)+' mV';$('fb').textContent=j.basinc_bar.toFixed(3)+' bar';$('kk').textContent=j.kalK.toFixed(4);$('of').textContent=j.ofset.toFixed(4)+' bar';
+ if(!$('hv').value){$('hv').value=fm(h,u);$('hb').value=u}}
+async function tazele(){try{show(await (await fetch('/api',{cache:'no-store'})).json())}catch(e){}}
+function tus(b){fetch('/tus?b='+b).then(()=>tazele()).catch(()=>{})}
+function basili(el,b){let t1,t2;const dur=()=>{clearTimeout(t1);clearInterval(t2)};
+ el.addEventListener('pointerdown',e=>{e.preventDefault();tus(b);t1=setTimeout(()=>{t2=setInterval(()=>tus(b),150)},500)});
+ ['pointerup','pointerleave','pointercancel'].forEach(x=>el.addEventListener(x,dur));el.oncontextmenu=e=>e.preventDefault()}
+async function upd(){try{show(await (await fetch('/api',{cache:'no-store'})).json())}catch(e){}setTimeout(upd,document.hidden?2000:400)}
+basili($('ba'),'art');basili($('bz'),'az');$('ip').textContent=location.host;fetch('/saat?t='+Math.floor(Date.now()/1000)).catch(()=>{});upd();
+</script></body></html>
