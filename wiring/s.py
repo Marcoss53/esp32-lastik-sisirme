@@ -80,7 +80,7 @@ f.savefig('3_sensor.png',bbox_inches='tight'); plt.close(f)
 # ---- 4 BUTON
 f,ax=fig("4) BUTONLAR",15,10.5)
 box(ax,6,14,24,58,"ESP32",'#e3f0ff',top=True); pin(ax,18,14,"GND",'u')
-for i,(gp,t) in enumerate([("GPIO32","+"),("GPIO33","−"),("GPIO27","START")]):
+for i,(gp,t) in enumerate([("GPIO32","+"),("GPIO33","−"),("GPIO27","BAŞLAT")]):
     y=62-i*18; pin(ax,30,y,gp,'l'); w(ax,[(30,y),(70,y)],B)
     ax.add_patch(Circle((80,y),7,fc='#ffd24d',ec='k',lw=2)); ax.text(80,y,t,ha='center',va='center',fontsize=15 if len(t)>1 else 24,weight='bold')
     w(ax,[(90,y),(110,y)],K); pin(ax,70,y,"",'u'); pin(ax,90,y,"",'u')
@@ -89,7 +89,7 @@ note(ax,80,84,"Butonun bir ayağı GPIO'ya, diğeri GND'ye.\nEk direnç GEREKMEZ
 legend(ax,[(B,'buton GPIO'),(K,'GND')],120,40)
 f.savefig('4_butonlar.png',bbox_inches='tight'); plt.close(f)
 # ---- 5 EKRAN
-f,ax=fig("5) EKRAN: Waveshare 2\" LCD",16,12)
+f,ax=fig("5) EKRAN: 2\" LCD ST7789V (Waveshare)",16,12)
 box(ax,4,8,26,100,"ESP32",'#e3f0ff',top=True)
 box(ax,122,8,30,100,"2\" LCD\nST7789V",'#d8e6ff',18)
 P=[("VCC","3V3",'#d62728',"3,3V"),("GND","GND",K,"GND"),("DIN","GPIO23",B,"veri"),("CLK","GPIO18",'#f2c500',"saat"),
@@ -103,3 +103,28 @@ for i,(lp,ep,c,an) in enumerate(P):
     ax.text(76,y+1.2,an,ha='center',va='bottom',fontsize=13,color='#444')
 note(ax,80,2,"VCC mutlaka 3,3V (5V değil).",15)
 f.savefig('5_ekran.png',bbox_inches='tight'); plt.close(f)
+# ---- 6 PNÖMATİK HAT (gerçek hat, kutu v7)
+f,ax=fig("6) PNÖMATİK HAT – hava soldan sağa",20,8)
+A='#5b8fd6'
+parts=[("GİRİŞ\nBARB",'#f3d27a',"sol duvar\nyarığından\ndışarı"),("VALF\n2W-025-08",'#fde0e0',"bobin\nyukarı"),("HIZLI\nGEÇME",'#cfd8dc',""),
+       ("PU\nHORTUM",'#bbdefb',""),("HIZLI\nGEÇME T",'#bdbdbd',"yan kol:\nSENSÖR"),("PU\nHORTUM",'#bbdefb',""),("HIZLI\nGEÇME",'#cfd8dc',""),("ÇIKIŞ\nBARB",'#f3d27a',"hortum Ø17\ndelikten\niçeri girer")]
+x=6; bw=19; gap=5
+for i,(t,c,alt) in enumerate(parts):
+    box(ax,x,32,bw,16,t,c,13)
+    if alt: note(ax,x+bw/2,66 if i==4 else 14,alt,12)
+    if i==4: w(ax,[(x+bw/2,49),(x+bw/2,58)],K,3)
+    if i<len(parts)-1: ax.annotate('',xy=(x+bw+gap-0.5,40),xytext=(x+bw+0.5,40),arrowprops=dict(arrowstyle='->',color=A,lw=4))
+    x+=bw+gap
+note(ax,100,4,"Sensör kolu: düz hızlı geçme → adaptör → redüksiyon (teflonlu) → sensör. Valf üstündeki ok hava yönünde olmalı.",13)
+f.savefig('6_pnomatik.png',bbox_inches='tight'); plt.close(f)
+# ---- 7 BUZZER
+f,ax=fig("7) BUZZER (bitiş sesi)",15,9)
+box(ax,6,20,26,44,"ESP32",'#e3f0ff',top=True); pin(ax,32,54,"GPIO13",'l'); pin(ax,32,30,"GND",'l')
+w(ax,[(32,54),(96,54)],B)
+ax.add_patch(Circle((108,42),13,fc='#333',ec='k',lw=2)); ax.add_patch(Circle((108,42),3,fc='#777',ec='k'))
+ax.text(108,61,"BUZZER",ha='center',fontsize=18,weight='bold')
+pin(ax,96,54,"+",'u'); pin(ax,96,30,"−",'d')
+w(ax,[(32,30),(96,30)],K,5)
+note(ax,75,8,"Uzun bacak / kırmızı kablo (+) GPIO13'e, kısa bacak (−) GND'ye.\nAktif veya pasif buzzer olur. Bitişte 3 kısa + 1 uzun bip.",14)
+legend(ax,[(B,'GPIO13 sinyal'),(K,'GND')],120,82)
+f.savefig('7_buzzer.png',bbox_inches='tight'); plt.close(f)

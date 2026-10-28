@@ -69,8 +69,11 @@ Ayrıntı ve linkler: [`BOM.csv`](BOM.csv). Elektronik + valf ≈ **2.815 TL** (
 
 | | | |
 |---|---|---|
+![Bağlantı şeması](wiring/0_TUM_BAGLANTI_SEMASI.png)
+
 | ![](wiring/1_guc.png) | ![](wiring/2_valf.png) | ![](wiring/3_sensor.png) |
-| ![](wiring/4_butonlar.png) | ![](wiring/5_ekran.png) | |
+| ![](wiring/4_butonlar.png) | ![](wiring/5_ekran.png) | ![](wiring/7_buzzer.png) |
+| ![](wiring/6_pnomatik.png) | | |
 
 ### Derleme / yükleme
 ```bash
@@ -151,7 +154,7 @@ See [`BOM.csv`](BOM.csv) (Turkish sellers, prices in TRY). Electronics + valve �
 | Buttons | GPIO32 +, GPIO33 −, GPIO27 BAŞLAT → GND (internal pull-ups) |
 | Display | VCC 3V3, DIN 23, CLK 18, CS 5, DC 16, RST 17, BL 4 |
 
-Diagrams are in [`wiring/`](wiring) (labels in Turkish: GÜÇ = power, VALF = valve, BUTONLAR = buttons, EKRAN = display).
+Diagrams are in [`wiring/`](wiring) (labels in Turkish: GÜÇ = power, VALF = valve, BUTONLAR = buttons, EKRAN = display, PNÖMATİK = pneumatics). Full sheet: [`wiring/0_TUM_BAGLANTI_SEMASI.png`](wiring/0_TUM_BAGLANTI_SEMASI.png).
 
 ### Build and flash
 ```bash
