@@ -59,6 +59,12 @@ Ayrıntı ve linkler: [`BOM.csv`](BOM.csv). Elektronik + valf ≈ **2.815 TL** (
 | 1/4" fittings | nipeller, 2× T, kör tapa, 3/4→1/4 redüksiyon |
 
 ### Bağlantı
+**Kutu içi yerleşim ve kablolama (üstten görünüm):**
+
+![Kutu içi bağlantı şeması](wiring/8_KUTU_ICI_BAGLANTI.png)
+
+3D görünüm: [üstten](wiring/9_kutu_ici_3d_ustten.png) · [izometrik](wiring/9_kutu_ici_3d_izometrik.png) · [PDF](wiring/8_KUTU_ICI_BAGLANTI.pdf)
+
 | Parça | Bağlantı |
 |---|---|
 | Güç | 12V adaptör → DC jak; 5V buck → ESP32 VIN + sensör |
@@ -67,8 +73,6 @@ Ayrıntı ve linkler: [`BOM.csv`](BOM.csv). Elektronik + valf ≈ **2.815 TL** (
 | Butonlar | GPIO32 +, GPIO33 −, GPIO27 BAŞLAT → GND |
 | Ekran | VCC 3V3, DIN 23, CLK 18, CS 5, DC 16, RST 17, BL 4 |
 
-| | | |
-|---|---|---|
 ![Bağlantı şeması](wiring/0_TUM_BAGLANTI_SEMASI.png)
 
 | ![](wiring/1_guc.png) | ![](wiring/2_valf.png) | ![](wiring/3_sensor.png) |
@@ -146,6 +150,12 @@ Change the Wi-Fi password via `AP_SIFRE` in `firmware/src/main.cpp`.
 See [`BOM.csv`](BOM.csv) (Turkish sellers, prices in TRY). Electronics + valve ≈ 2,815 TRY (10/2026). Main parts: ESP32 DevKit; 2W-025-08 12 V NC G1/4 valve; G1/4 0–200 psi 0.5–4.5 V pressure sensor; TIP102 + 1 kΩ + 10 kΩ + 1N4007; 10 kΩ/20 kΩ divider; Waveshare 2" ST7789V; 3× 16 mm push buttons; 5.5×2.1 DC jack; 12 V 2 A adapter; 5 V buck; 1/4" fittings.
 
 ### Wiring
+**In-box layout and wiring (top view, labels in Turkish):**
+
+![In-box wiring diagram](wiring/8_KUTU_ICI_BAGLANTI.png)
+
+3D views: [top](wiring/9_kutu_ici_3d_ustten.png) · [isometric](wiring/9_kutu_ici_3d_izometrik.png) · [PDF](wiring/8_KUTU_ICI_BAGLANTI.pdf)
+
 | Part | Connection |
 |---|---|
 | Power | 12 V adapter → DC jack; 5 V buck → ESP32 VIN + sensor |
