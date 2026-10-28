@@ -33,7 +33,7 @@ Kompresör hattına takılan, hedef basınca kadar lastiği otomatik şişiren E
 
 Telefonu bu ağa bağla, tarayıcıda paneli aç. Wi-Fi şifresi `firmware/src/main.cpp` içindeki `AP_SIFRE` satırından değiştirilebilir.
 
-> ⚠️ **OTA şifresi:** varsayılan `ota-sifre-degistir`. Cihazı kullanmadan önce `main.cpp` başındaki `OTA_SIFRE_DEF` değerini mutlaka değiştir.
+> ℹ️ **OTA şifresiz:** Kablosuz güncelleme şifre sormaz. `Lastik-Sisirme` ağına bağlanıp `http://192.168.4.1/update` sayfasından `.bin` dosyasını seçmen yeterli. Wi-Fi şifresini bilen herkes yazılım yükleyebilir.
 
 ### Pin bağlantıları
 | İşlev | GPIO |
@@ -127,7 +127,7 @@ An ESP32 station that sits on a compressor line and inflates a tire to a set pre
 
 Change the Wi-Fi password via `AP_SIFRE` in `firmware/src/main.cpp`.
 
-> ⚠️ **OTA password:** default is `ota-sifre-degistir`. Change `OTA_SIFRE_DEF` at the top of `main.cpp` before use.
+> ℹ️ **OTA has no password:** connect to `Lastik-Sisirme`, open `http://192.168.4.1/update` and pick the `.bin`. Anyone who knows the Wi-Fi password can upload firmware.
 
 ### Pinout
 | Function | GPIO |

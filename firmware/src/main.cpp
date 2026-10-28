@@ -1,6 +1,5 @@
-// OTA / web güncelleme şifresi: KULLANMADAN ÖNCE MUTLAKA DEĞİŞTİRİN!
-// Change this OTA / firmware-upload password before use!
-#define OTA_SIFRE_DEF "ota-sifre-degistir"
+// OTA (kablosuz güncelleme) şifresiz: Wi-Fi ağına bağlanan herkes yükleyebilir.
+// OTA is password-free: anyone on the device's Wi-Fi can upload firmware.
 /*
  * ESP32 Otomatik Lastik Şişirme İstasyonu
  * Kart    : ESP32 DevKit (ESP-WROOM-32)
@@ -67,7 +66,6 @@ const int PIN_BUZZER   = 13;
 const char *AP_ADI    = "Lastik-Sisirme";
 const char *AP_SIFRE  = "123456789";      // Wi-Fi şifresi (varsayılan, istersen değiştir)
 const char *HOST_ADI  = "lastik-sisirme";
-const char *OTA_SIFRE = OTA_SIFRE_DEF;  // bkz. dosya başı
 const int TFT_CS = 5, TFT_DC = 16, TFT_RST = 17, TFT_BL = 4;  // MOSI 23, SCK 18 (donanım SPI)
 
 // ---------------- KALİBRASYON ----------------
@@ -382,7 +380,6 @@ const char *durumAd() {
   switch (durum) { case SISIR: case OTUR: return "SISIRILIYOR"; case BOSALT: return "BOSALTILIYOR";
     case BITTI: return "TAMAM"; case HATA: return "HATA"; default: return "HAZIR"; }
 }
-// Ayar/valf uçları için anahtar: ?k=<OTA_SIFRE>  (k yalnız anahtar; kalK için /kal?kat=)
 // Panel uclari: cihaz kendi sifreli AP'sini yayinliyor, aga baglanabilen paneli kullanir (ek anahtar yok).
 bool yetki() { return true; }
 void webJson(bool, const char *fmt, ...) { char j[384]; va_list a; va_start(a, fmt); vsnprintf(j, sizeof j, fmt, a); va_end(a); web.send(200, "application/json; charset=utf-8", j); }
@@ -394,7 +391,7 @@ void wifiBaslat() {
   WiFi.softAP(AP_ADI, AP_SIFRE, 6, 0, 4);   // kanal 6, görünür, en çok 4 cihaz
   WiFi.setSleep(false); WiFi.setTxPower(WIFI_POWER_15dBm);
   dns.setErrorReplyCode(DNSReplyCode::NoError); dns.start(53, "*", IPAddress(192,168,4,1));
-  ArduinoOTA.setHostname(HOST_ADI); ArduinoOTA.setPassword(OTA_SIFRE);
+  ArduinoOTA.setHostname(HOST_ADI);
   ArduinoOTA.onStart([]() { guncellemeBasla(); ilerlemeCiz(0); });
   ArduinoOTA.onProgress([](unsigned a, unsigned t) { valfKapat(); ilerlemeCiz(a * 100 / t); });
   ArduinoOTA.onEnd([]() { ilerlemeCiz(100); });
@@ -477,15 +474,12 @@ void wifiBaslat() {
     web.send(200, "text/plain; charset=utf-8", t); });
   web.on("/update", HTTP_GET, []() {
     web.send(200, "text/html; charset=utf-8", "<meta name=viewport content='width=device-width'><body style='background:#0b0e14;color:#ddd;font-family:sans-serif'><h3>Lastik Sisirme - Firmware yukle</h3>"
-      "<form method=POST enctype=multipart/form-data onsubmit=\"this.action='/update?k='+encodeURIComponent(document.getElementById('k').value)\">"
-      "Anahtar <input id=k type=password><br><br><input type=file name=f accept=.bin> <input type=submit value=Yukle></form>"
-      "<script>document.getElementById('k').value=localStorage.getItem('otaK')||''</script>"); });
+      "<form method=POST action=/update enctype=multipart/form-data>"
+      "<input type=file name=f accept=.bin> <input type=submit value=Yukle></form>"); });
   web.on("/update", HTTP_POST, []() {
-    if (web.arg("k") != OTA_SIFRE) { web.send(403, "text/plain", "anahtar hatali"); return; }
     web.send(200, "text/plain", Update.hasError() ? "HATA" : "TAMAM, yeniden basliyor"); delay(500); if (!Update.hasError()) ESP.restart(); },
     []() {
       HTTPUpload &u = web.upload();
-      if (web.arg("k") != OTA_SIFRE) return;
       if (u.status == UPLOAD_FILE_START) { guncellemeBasla(); ilerlemeCiz(0); Update.begin(UPDATE_SIZE_UNKNOWN); }
       else if (u.status == UPLOAD_FILE_WRITE) { valfKapat(); Update.write(u.buf, u.currentSize); ilerlemeCiz(min(99u, (unsigned)(Update.progress() * 100 / max(1u, (unsigned)web.header("Content-Length").toInt())))); }
       else if (u.status == UPLOAD_FILE_END) { if (Update.end(true)) ilerlemeCiz(100); else { otaAktif = false; hata("GÜNCELLEME HATASI"); } }
